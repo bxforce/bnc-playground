@@ -1,0 +1,53 @@
+
+# my global config
+global:
+  scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+#  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  # scrape_timeout is set to the global default (10s).
+#  external_labels:
+#    env: 'bnc'
+
+# Alertmanager configuration
+#alerting:
+#  alertmanagers:
+#  - static_configs:
+#    - targets:
+      # - alertmanager:9093
+    #scheme: http
+    #timeout: 10s
+
+
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+#rule_files:
+#  - "/alertmanager/alert.rules/alerts.rules.yml"
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  #- job_name: 'prometheus'
+
+    # metrics_path defaults to '/metrics'
+    # scheme defaults to 'http'.
+
+    #static_configs:
+    #- targets: ['localhost:9090']
+
+  - job_name: 'orderer0'
+    static_configs:
+      - targets: ['orderer0.bnc.com:8443']
+  
+  - job_name: 'peer0_org1'
+    static_configs:
+      - targets: ['peer0.org1.bnc.com:9443']
+
+  - job_name: 'host'
+    static_configs:
+      - targets: ['node_exporter:9100']
+    scrape_interval: 5s
+
+  - job_name: 'cadvisor'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['cadvisor:8080']
+
